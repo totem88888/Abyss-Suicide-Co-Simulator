@@ -92,3 +92,5 @@ async function playDialog(category, filename) {
         await new Promise(r => setTimeout(r, 300));
     }
 }
+
+playDialog("intro", "intro");
