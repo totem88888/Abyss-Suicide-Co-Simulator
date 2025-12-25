@@ -1,0 +1,243 @@
+/* =========================================================
+불러오기
+========================================================= */
+
+/* 글꼴 */
+@import url('https://fonts.googleapis.com/css2?family=Chiron+Hei+HK:ital,wght@0,200..900;1,200..900&family=Noto+Serif+KR:wght@200..900&display=swap');
+
+/* =========================================================
+기본 루트 설정
+========================================================= */
+
+:root {
+    --black: #00011a; /* 검은색 */
+    --white: #bdddde; /* 하양색 */
+    --gray: #4a545c; /* 회색 */
+    --mint: #78e3d0; /* 민트색 */
+    --red: #ff5252; /* 빨강 */
+    --orange: #ff8826; /* 주황 */
+    --opacity: rgba(255,255,255,0.03);
+    
+    color-scheme: dark;
+}
+
+/* =========================================================
+기본 객체 설정
+========================================================= */
+
+body {
+    height: 100%;
+    margin: 0;
+    font-family: "Chiron Hei HK", "Noto Serif KR", sans-serif;
+    color: var(--white);
+    background: var(--black);
+    letter-spacing: -1px;
+    font-size: 14px;
+}
+
+h1 {
+    font-weight: bold;
+    font-size: 28px;
+}
+
+/* =========================================================
+메인
+========================================================= */
+
+main {
+    padding: 18px;
+    display: flex;
+    height: calc(100vh - 64px);
+    gap: 18px;
+}
+
+#main {
+    display: flex;
+    min-height: calc(100vh - 60px); /* 헤더 높이 있으면 조절 */
+}
+
+#sidebar {
+    flex: 1;
+    border-right: 1px solid var(--opacity);
+}
+
+#content {
+    flex: 2;
+}
+
+/* =========================================================
+헤더
+========================================================= */
+
+header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
+    background: var(--opacity);
+    border-bottom: 1px solid var(--opacity);
+}
+
+#header-box h1, #header-box p {
+    margin: 0;
+}
+
+.header-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+}
+
+/* =========================================================
+버튼 및 인풋
+========================================================= */
+
+/* 버튼 */
+button {
+    --btn-color: var(--mint);
+    --btn-shadow: rgba(120, 227, 208, 0.45);
+
+    background: transparent;
+    border: 1px solid var(--btn-color);
+    padding: 8px 12px;
+    border-radius: 40px;
+    color: var(--btn-color);
+    cursor: pointer;
+
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
+}
+
+button:hover {
+    background: var(--btn-color);
+    color: var(--black);
+
+    box-shadow:
+        0 0 6px var(--btn-shadow),
+        0 0 14px var(--btn-shadow);
+
+    transform: translateY(-1px);
+}
+
+button.white {
+    --btn-color: var(--white);
+    --btn-shadow: rgba(184, 216, 210, 0.45);
+}
+
+button.red {
+    --btn-color: var(--red);
+    --btn-shadow: rgba(255, 82, 82, 0.45);
+}
+
+button.orange {
+    --btn-color: var(--orange);
+    --btn-shadow: rgba(255, 183, 77, 0.45);
+}
+
+/* 인풋 */
+input[type=text], input[type=email], input[type=password], input[type=number], select, textarea {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--white);
+    background: transparent;
+    color: var(--white);
+    transition: border-color 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--mint);
+    color: var(--mint);
+}
+
+/* 체크박스 */
+input[type="checkbox"] {
+    accent-color: var(--mint);
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    vertical-align: middle;
+}
+
+/* =========================================================
+세로/가로로 나열(표처럼)
+========================================================= */
+
+/* 세로 */
+.vertical-table {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* 왼쪽 정렬 */
+    gap: 4px;                /* 줄 간격 */
+}
+
+/* 가로 */
+.horizontal-table {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+/* =========================================================
+인트로
+========================================================= */
+
+#intro {
+    position: fixed;
+    inset: 0;
+    background: var(--black);
+    color: var(--white);
+    z-index: 9999;
+}
+
+#intro-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+#intro > * { pointer-events: none; }
+
+/* =========================================================
+페이드 인/아웃 & 깜빡임
+========================================================= */
+
+.fade-in { animation: fade-in 1.2s ease forwards; }
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.fade-out { animation: fade-out 1.2s ease forwards; }
+
+@keyframes fade-out {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+/* 천천히 깜빡임 */
+.blink {
+    opacity: 1;
+    animation: blink-default 1.2s infinite;
+    animation-delay: 1.2s;
+}
+
+.switch-blink {
+    opacity: 1;
+    animation: blink-default 1.2s steps(1, end) infinite;
+    animation-delay: 1.2s;
+}
+
+@keyframes blink-default {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}

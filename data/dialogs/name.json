@@ -1,0 +1,6 @@
+{
+    "N": { "name": "", "color": "#bdddde" },
+    "S": {"name": "SYSTEM", "color": "#bdddde", "speed": 600 },
+    "M": {"name": "MAIL", "color": "#bdddde", "speed": 600 },
+    "DINA": { "name": "DINA", "color": "#78e3d0" }
+}
