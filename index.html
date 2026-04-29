@@ -4,13 +4,19 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <link rel="stylesheet" href="style.css">
-        <script type="module" src="script.js"></script>
+        <script src="script.js"></script>
     </head>
     <body>
-        <div id="game-container">
-            <button onclick="loadAndTypeRandomFile()">랜덤 문서 읽기</button>
-            <div id="output" style="border: 1px solid #ccc; padding: 20px; min-height: 100px;">
-                </div>
+        <div id="game-area">
+            <h2>심연 탐사</h2>
+            <div id="encounter-display" style="min-height: 100px; border: 1px solid #444; padding: 15px; margin-bottom: 10px;">
+                버튼을 눌러 탐사를 시작하세요.
+            </div>
+            
+            <div id="options-container"></div>
+
+            <hr>
+            <button onclick="startRandomEncounter()">탐사 시작</button>
         </div>
     </body>
 </html>
