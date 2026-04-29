@@ -1,96 +1,34 @@
-/* =========================================================
-    DOM 요소 참조/선언
-========================================================= */
+// 1. 파일 이름 리스트 (특정 폴더 내의 파일들을 미리 정의해야 합니다)
+const fileList = ['file1.txt', 'file2.txt', 'file3.txt'];
 
-const header = document.getElementById("header");
-const intro = document.getElementById("intro")
-const introGuideEl = document.getElementById("intro-guide")
-const sidebar = document.getElementById("sidebar");
-const content = document.getElementById("content");
+async function loadAndTypeRandomFile() {
+    // 2. 랜덤으로 파일 하나 선택
+    const randomIndex = Math.floor(Math.random() * fileList.length);
+    const selectedFile = `./data/${fileList[randomIndex]}`; // 폴더 경로에 맞춰 수정
 
-/* =========================================================
-    인트로
-========================================================= */
+    try {
+        // 3. 파일 내용 읽어오기
+        const response = await fetch(selectedFile);
+        if (!response.ok) throw new Error("파일을 찾을 수 없습니다.");
+        const text = await response.text();
 
-window.addEventListener("load", () => {
-  const closeIntro = () => {
-    introGuideEl.classList.remove("blink");
-    intro.classList.remove("fade-in");
-    intro.classList.add("fade-out");
-    setTimeout(() => intro.remove(), 1200);
-  };
-
-  // 클릭 종료
-  intro.addEventListener("click", closeIntro);
-});
-
-/* =========================================================
-    기본 튜토리얼
-========================================================= */
-
-/* =========================================================
-    대사
-========================================================= */
-
-let NAME_DATA = {};
-
-/* name 정보 로드 */
-async function loadNameData() {
-    const res = await fetch("./data/dialogs/name.json");
-    NAME_DATA = await res.json();
-}
-
-/* 타이핑 효과 */
-function typeText(el, text, speed) {
-    return new Promise(resolve => {
-        let i = 0;
-        const timer = setInterval(() => {
-            el.textContent += text[i++];
-            if (i >= text.length) {
-                clearInterval(timer);
-                resolve();
-            }
-        }, speed / text.length);
-    });
-}
-
-/* 대사 출력 */
-async function playDialog(category, filename) {
-    if (!Object.keys(NAME_DATA).length) {
-        await loadNameData();
+        // 4. 타이핑 효과 실행
+        startTypingEffect(text, document.getElementById('output'));
+    } catch (error) {
+        console.error("에러 발생:", error);
     }
+}
 
-    const res = await fetch(`./data/dialogs/${category}/${filename}.json`);
-    const dialog = await res.json();
+function startTypingEffect(text, element) {
+    let index = 0;
+    element.textContent = ""; // 기존 내용 초기화
 
-    for (const key of Object.keys(dialog)) {
-        const speakerKey = key.split("_")[0];
-        const speaker = NAME_DATA[speakerKey] || NAME_DATA["N"];
-
-        const line = document.createElement("div");
-        line.className = "dialog-line";
-        line.style.color = speaker.color;
-
-        if (speaker.name) {
-            const nameTag = document.createElement("span");
-            nameTag.className = "dialog-name";
-            nameTag.textContent = speaker.name + " ";
-            line.appendChild(nameTag);
+    const timer = setInterval(() => {
+        if (index < text.length) {
+            element.textContent += text.charAt(index);
+            index++;
+        } else {
+            clearInterval(timer); // 타이핑 종료
         }
-
-        const textSpan = document.createElement("span");
-        line.appendChild(textSpan);
-
-        sidebar.appendChild(line);
-
-        await typeText(
-            textSpan,
-            dialog[key],
-            speaker.speed || 600
-        );
-
-        await new Promise(r => setTimeout(r, 300));
-    }
+    }, 50); // 50ms 간격 (숫자가 낮을수록 빨라집니다)
 }
-
-playDialog("intro", "intro");
